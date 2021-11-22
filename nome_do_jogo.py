@@ -12,6 +12,15 @@ from config import medidas_tela, x, y, vel_cobra, largura, altura, pontos
 pygame.init()
 pygame.mixer.init()
 
+
+# Som do jogo
+pygame.mixer.music.set_volume(0.1)
+musica_de_fundo = pygame.mixer.music.load('musica_do_jogo.mp3')
+pygame.mixer.music.play(-1)
+
+# Som da cobra comendo a comimda
+barulho_comendo = pygame.mixer.Sound('cobra_comendo.wav')
+
 window = pygame.display.set_mode(medidas_tela) # Substituir dps pelo valor correto
 pygame.display.set_caption('Nome do Jogo') # Adicionar nome do jogo depois
 tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo!
@@ -68,6 +77,7 @@ while state != False:
         x_comida = randint(0, 600) 
         y_comida = randint(0, 600)
         pontos += 1
+        barulho_comendo.play()
 
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
