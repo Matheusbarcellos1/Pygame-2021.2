@@ -1,7 +1,9 @@
 # Nome do jogo
 
-Desenvolvedores: Tales Ivalque
-                 Cleilton Sousa
-                 Matheus Barcellos
+Desenvolvedores: 
+
+Cleilton Sousa,
+Matheus Barcellos,
+Tales Ivalque.
 
 Link do vídeo: ********************
