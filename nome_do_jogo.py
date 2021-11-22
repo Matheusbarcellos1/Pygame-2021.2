@@ -1,7 +1,6 @@
 import pygame
 from random import randint
-from config import PRETO, VERMELHO, VERDE, BRANCO, AZUL
-from config import medidas_tela, x, y, vel_cobra, largura, altura, pontos
+from config import *
 
 
 # from config import **,**,**,**,**
