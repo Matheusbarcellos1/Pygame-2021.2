@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 from config import PRETO, VERMELHO, VERDE, BRANCO, AZUL
-from config import medidas_tela, x, y, vel_cobra, largura, altura
+from config import medidas_tela, x, y, vel_cobra, largura, altura, pontos
 
 
 # from config import **,**,**,**,**
@@ -20,10 +20,11 @@ tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo
 x_comida = randint(0, 600)
 y_comida = randint(0, 600) 
 
+# Pontos
+pontos = 0
+
 state = True
 while state != False:
-    tempo.tick(50)
-
     if state == True:
         state = 1
     elif state == 1:
@@ -31,8 +32,10 @@ while state != False:
     else:
         state = False
 
-    for event in pygame.event.get():        #fecha a janela do jogo  
-        if event.type == pygame.QUIT:
+
+    tempo.tick(50)    
+    for event in pygame.event.get():          
+        if event.type == pygame.QUIT:           #fecha a janela do jogo quando aperta no 'X' da tela
             state = False
 
 
@@ -50,6 +53,11 @@ while state != False:
     # Atualiza a tela para apagar os passos pecorridos pela cobra
     window.fill(PRETO) # A cor deve ser a mesma do fundo da tela!
 
+    # Marcador de pontos
+    fonte = pygame.font.Font(None, 48)
+    marcador_pontos = fonte.render(f'Pontos: {pontos}', True, VERMELHO) # Pontos com fonte
+    window.blit(marcador_pontos, [0, 0])
+
     
     # Cobra e comida
     cobra = pygame.draw.rect(window, VERDE, (x, y, 10, 10))
@@ -59,6 +67,8 @@ while state != False:
     if cobra.colliderect(comida):
         x_comida = randint(0, 600) 
         y_comida = randint(0, 600)
+        pontos += 1
+
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
     if y >=  altura:
@@ -72,6 +82,5 @@ while state != False:
 
 
     pygame.display.update()
-
 
 pygame.quit()

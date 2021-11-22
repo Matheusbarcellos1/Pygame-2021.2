@@ -20,3 +20,6 @@ AZUL = (0, 0, 255)
 # Velocidade inicial de movimento da cobra
 vel_cobra = 10
 
+
+# Pontos
+pontos = 0
