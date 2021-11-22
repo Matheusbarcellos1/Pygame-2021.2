@@ -14,7 +14,7 @@ pygame.mixer.init()
 
 window = pygame.display.set_mode(medidas_tela) # Substituir dps pelo valor correto
 pygame.display.set_caption('Nome do Jogo') # Adicionar nome do jogo depois
-tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo
+tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo!
 
 # Coordenadas comida
 x_comida = randint(0, 600)
