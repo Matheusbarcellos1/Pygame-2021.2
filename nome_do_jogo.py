@@ -14,11 +14,11 @@ pygame.mixer.init()
 
 window = pygame.display.set_mode(medidas_tela) # Substituir dps pelo valor correto
 pygame.display.set_caption('Nome do Jogo') # Adicionar nome do jogo depois
-tempo = pygame.time.Clock()
+tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo
 
 # Coordenadas comida
-x_comida = randint(0, 800)
-y_comida = randint(0, 800)
+x_comida = randint(0, 600)
+y_comida = randint(0, 600) 
 
 state = True
 while state != False:
@@ -50,17 +50,15 @@ while state != False:
     # Atualiza a tela para apagar os passos pecorridos pela cobra
     window.fill(PRETO) # A cor deve ser a mesma do fundo da tela!
 
-
+    
     # Cobra e comida
     cobra = pygame.draw.rect(window, VERDE, (x, y, 10, 10))
-    comida = pygame.draw.rect(window, VERMELHO, (x_comida, y_comida, 20, 20)) # Está com problema
+    comida = pygame.draw.rect(window, VERMELHO, (x_comida, y_comida, 20, 20)) 
 
-    
     # Cobra comendo a comida
     if cobra.colliderect(comida):
-        x_comida = randint(0, 800)
-        y_comida = randint(0, 800) 
-
+        x_comida = randint(0, 600) 
+        y_comida = randint(0, 600)
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
     if y >=  altura:
