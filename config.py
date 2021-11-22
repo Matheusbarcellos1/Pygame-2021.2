@@ -1,5 +1,5 @@
 # Comprimentos da tela do jogo (valores não fixos, sujeitos a alterações)
-largura = 700
+largura = 800
 altura = 700
 medidas_tela = (largura, altura)
 
