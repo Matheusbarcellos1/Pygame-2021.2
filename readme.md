@@ -7,10 +7,10 @@ INSPER 2021.2, Turma 1B - Engenharia
 
 Professor: Humberto Sandmann
 
-#Como Jogar
-#Créditos
-#Elementos Gráficos e sonoros
-#Para jogar o Jogo
+# Como Jogar
+# Créditos
+# Elementos Gráficos e sonoros
+# Para jogar o Jogo
 Instale as bibliotecas:
 Pygame
 
