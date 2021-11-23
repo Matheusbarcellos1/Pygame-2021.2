@@ -1,9 +1,16 @@
-# Nome do jogo
+# BitGame
+Link do jogo no youtube:************************
 
-Desenvolvedores: 
+Jogo desenvolvido como projeto final da diciplina Design de Software, pelos alunos:Cleilton Sousa,Matheus Barcellos,Tales Ivalque
 
-Cleilton Sousa,
-Matheus Barcellos,
-Tales Ivalque.
+INSPER 2021.2, Turma 1B - Engenharia
 
-Link do vídeo: ********************
+Professor: Humberto Sandmann
+
+#Como Jogar
+#Créditos
+#Elementos Gráficos e sonoros
+#Para jogar o Jogo
+Instale as bibliotecas:
+Pygame
+
