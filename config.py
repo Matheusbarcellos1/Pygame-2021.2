@@ -20,6 +20,9 @@ VERDE = (0, 255, 0)
 AZUL = (0, 0, 255)
 AMARELO = (244, 233, 51)
 
+INIT = 0
+GAME = 1
+QUIT = 2
 
 # Pontos
 PONTOS = 0

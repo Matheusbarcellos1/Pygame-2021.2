@@ -18,12 +18,12 @@ pygame.mixer.init()
 
 # Som do jogo
 pygame.mixer.music.set_volume(0.1)
-musica_de_fundo = pygame.mixer.music.load('musica_do_jogo.mp3')
+musica_de_fundo = pygame.mixer.music.load('assets\sons\musica_do_jogo.mp3')
 pygame.mixer.music.play(-1)
 
 
 # Som da cobra comendo a comimda
-barulho_comendo = pygame.mixer.Sound('cobra_comendo.wav')
+barulho_comendo = pygame.mixer.Sound('assets\sons\cobra_comendo.wav')
 
 
 window = pygame.display.set_mode(MEDIDAS_TELA) # Substituir dps pelo valor correto
