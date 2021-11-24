@@ -1,8 +1,8 @@
 import pygame
 from random import randint
-
-from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, KEYDOWN, K_a, K_d, K_s, K_w
+from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, KEYDOWN, QUIT, K_a, K_d, K_r, K_s, K_w # O que é isso??????
 from config import *
+from sys import exit
 
 
 # from config import **,**,**,**,**
@@ -38,16 +38,33 @@ vel_y = 0
 # Pontos
 pontos = 0
 
+
+lista_cobra = [] # Para aumento de tamanho
+comprimento_inicial = 1
+state = True # Mantém laço do while enquanto verdadeiro
+morte = False # Variável para quando a cobra de morde
+
 # DEFININDO A FUNÇÃO DE TAMANHO DA OBRA (OBS: RETIRAR DAQUI DEPOIS)
 def cresce_cobra(lista_cobra):
     for posicao in lista_cobra:
         # Lembrando que lista_cobra é uma lista dentro de lista: [[x, y]]
         pygame.draw.rect(window, VERDE, (posicao[0], posicao[1], 10, 10))
-    
 
-lista_cobra = [] # Para aumento de tamanho
-comprimento_inicial = 1
-state = True
+# DEFININDO A FUNÇÃO DE REINICIAR O JOGO QUANDO A COBRA SE MORDE (OBS: RETIRAR DAQUI DEPOIS)
+def reinicia_jogo():
+
+    # Redefinindo as variáveis locais
+    global pontos, comprimento_inicial, x_cobra, y_cobra, x_comida, y_comida, lista_cobra, lista_cabeca, morte
+    pontos = 0
+    comprimento_inicial = 1
+    x_cobra = (largura / 2) - (10 / 2)
+    y_cobra = (altura / 2) - (10 / 2)
+    lista_cabeca = []
+    lista_cobra = []
+    x_comida = randint(0, 600) 
+    y_comida = randint(0, 600)
+    morte = False
+
 while state != False:
     if state == True:
         state = 1
@@ -65,17 +82,29 @@ while state != False:
         # Comandos de movimentos da cobra com teclas
         if event.type == KEYDOWN:
             if event.key == K_LEFT or event.key == K_a:
-                vel_x = - (velocidade + 3)
-                vel_y = 0
+                if vel_x == velocidade:
+                    pass
+                else:
+                    vel_x = - (velocidade + 3)
+                    vel_y = 0
             if event.key == K_RIGHT or event.key == K_d:
-                vel_x = velocidade + 3
-                vel_y = 0
+                if vel_x == - velocidade:
+                    pass
+                else:
+                    vel_x = velocidade + 3
+                    vel_y = 0
             if event.key == K_UP or event.key == K_w:
-                vel_x = 0
-                vel_y = - (velocidade + 3)
+                if vel_y == velocidade:
+                    pass
+                else:
+                    vel_x = 0
+                    vel_y = - (velocidade + 3)
             if event.key == K_DOWN or event.key == K_s:
-                vel_x = 0
-                vel_y = velocidade + 3
+                if vel_y == - velocidade:
+                    pass
+                else:
+                    vel_x = 0
+                    vel_y = velocidade + 3
     
     x_cobra += vel_x
     y_cobra += vel_y
@@ -99,7 +128,7 @@ while state != False:
         y_comida = randint(0, 600)
         pontos += 1
         barulho_comendo.play()
-        comprimento_inicial += 1
+        comprimento_inicial += 30
 
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
@@ -117,12 +146,33 @@ while state != False:
     lista_cabeca.append(y_cobra)
     lista_cobra.append(lista_cabeca)
 
+    # Faz com que o tamanho da cobra só aumente quando ela coma uma comida
     if len(lista_cobra) > comprimento_inicial:
         del lista_cobra[0]
 
     cresce_cobra(lista_cobra)
 
+    # Condição de morte da cobra
+    if lista_cobra.count(lista_cabeca) > 1:
+        # Mensagem gerada ao jogador morrer
+        fonte2 = pygame.font.Font(None, 30)
+        mensagem = ("GAME OVER! PRESSIONE 'R' PARA JOGAR NOVAMENTE!")
+        texto_formatado = fonte2.render(mensagem, True, VERMELHO)
+        ret_texto = texto_formatado.get_rect()
+
+        morte = True
+        while morte:
+            window.fill(PRETO)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit() # mesmo que: break
+                if event.type == KEYDOWN:
+                    if event.key == K_r:
+                        reinicia_jogo()
+            ret_texto.center = (largura / 2, altura / 2)
+            window.blit(texto_formatado, ret_texto)
+            pygame.display.update() 
 
     pygame.display.update()
-
 pygame.quit()
