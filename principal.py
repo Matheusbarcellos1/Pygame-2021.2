@@ -3,6 +3,8 @@ from random import randint
 from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, KEYDOWN, QUIT, K_a, K_d, K_r, K_s, K_w # O que é isso??????
 from config import *
 from sys import exit
+import sprites
+from os import *
 
 
 # from config import **,**,**,**,**
@@ -19,30 +21,15 @@ pygame.mixer.music.set_volume(0.1)
 musica_de_fundo = pygame.mixer.music.load('musica_do_jogo.mp3')
 pygame.mixer.music.play(-1)
 
+
 # Som da cobra comendo a comimda
 barulho_comendo = pygame.mixer.Sound('cobra_comendo.wav')
 
-window = pygame.display.set_mode(medidas_tela) # Substituir dps pelo valor correto
+
+window = pygame.display.set_mode(MEDIDAS_TELA) # Substituir dps pelo valor correto
 pygame.display.set_caption('Nome do Jogo') # Adicionar nome do jogo depois
 tempo = pygame.time.Clock()                 # Tempo de passada de frames no jogo!
 
-# Coordenadas comida
-x_comida = randint(0, 600)
-y_comida = randint(0, 600)
-
-# Coordenadas de velocidade de movimento
-velocidade = 5
-vel_x = velocidade
-vel_y = 0
-
-# Pontos
-pontos = 0
-
-
-lista_cobra = [] # Para aumento de tamanho
-comprimento_inicial = 1
-state = True # Mantém laço do while enquanto verdadeiro
-morte = False # Variável para quando a cobra de morde
 
 # DEFININDO A FUNÇÃO DE TAMANHO DA OBRA (OBS: RETIRAR DAQUI DEPOIS)
 def cresce_cobra(lista_cobra):
@@ -54,16 +41,131 @@ def cresce_cobra(lista_cobra):
 def reinicia_jogo():
 
     # Redefinindo as variáveis locais
-    global pontos, comprimento_inicial, x_cobra, y_cobra, x_comida, y_comida, lista_cobra, lista_cabeca, morte
-    pontos = 0
+    global PONTOS, comprimento_inicial, x_cobra, y_cobra, x_comida, y_comida, lista_cobra, lista_cabeca, morte
+    PONTOS = 0
     comprimento_inicial = 1
-    x_cobra = (largura / 2) - (10 / 2)
-    y_cobra = (altura / 2) - (10 / 2)
+    x_cobra = (LARGURA / 2) - (10 / 2)
+    y_cobra = (ALTURA / 2) - (10 / 2)
     lista_cabeca = []
     lista_cobra = []
     x_comida = randint(0, 600) 
     y_comida = randint(0, 600)
     morte = False
+
+
+class Game:
+    def __init__(self):
+        # Criando a tela do jogo
+        pygame.init()
+        pygame.mixer.init()
+        self.window = pygame.display.set_mode(MEDIDAS_TELA)
+        pygame.display.set_caption(TITULO_JOGO)
+        self.relogio = pygame.time.Clock()
+        self.roda_jogo = True
+        self.fonte = pygame.font.match_font(FONTE)
+        self.carregar_arquivos()
+    
+    
+    def novo_jogo(self):
+        # Mexe nas sprites do jogo
+        self.all_sprites = pygame.sprite.Group()
+        self.rodar()
+    
+    
+    def rodar(self):
+        # While true do jogo
+        self.jogando = True
+        while self.jogando:
+            self.relogio.tick(FPS) 
+            self.eventos()
+            self.atualizar_sprites()
+            self.desenhar_sprites()
+
+    
+    def eventos(self):
+        # Define eventos no game
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                if self.jogando:
+                    self.jogando == False
+                self.roda_jogo == False
+
+
+    def atualizar_sprites(self):
+        # Atualiza as sprites
+        self.all_sprites.updates()
+
+    
+    def desenhar_sprites(self):
+        # Desenha todas as sprites
+        self.window.fill(PRETO)
+        self.all_sprites(window)
+        pygame.display.flip()
+
+
+    def carregar_arquivos(self):
+        # Carrega os arquivos (áudio, imagem,)    
+        diretorio_imagem = path.join(getcwd(), 'imagens')
+        self.diretorio_audios = path.join(getcwd(), 'musica_sons')
+        self.spritesheet = path.join(diretorio_imagem, SPRITESHEET)
+        self.pacsnake_start_logo = path.join(diretorio_imagem, PACSNAKE_LOGO)
+        self.pacsnake_start_logo= pygame.image.load(self.pacsnake_start_logo).convert() # Modificando o valor do atributo de str para imagem no pygame
+
+
+    def mostrar_texto(self, mensagem, tamanho, cor, x, y):
+        # Exibe um texto na tela do jogo
+        fonte = pygame.font.Font(self.fonte, tamanho)
+        mensagem = fonte.render(mensagem, True, cor)
+        mensagem_rect = mensagem.get_rect()
+        mensagem_rect.midtop = (x, y)       # Posiciona o texto nas coordenadas: (x, y)
+        self.window.blit(mensagem, mensagem_rect)
+
+
+    def mostrar_logo_inicio(self, x, y):
+        start_logo_rect = self.pacsnake_start_logo.get_rect()
+        start_logo_rect.midtop = (x, y)
+
+
+    def mostrar_tela_inicio(self):
+        self.mostrar_texto('-Pressione algum botão para jogar-', 
+                            35, 
+                            AMARELO,
+                            LARGURA / 2,
+                            320
+                        )
+        self.mostrar_texto('Desenvolvido por Cleilton Sousa', 
+                            15, 
+                            BRANCO,
+                            LARGURA / 2,
+                            680
+                        )
+        
+        pygame.display.flip()
+        self.esperar_por_jogador()
+
+    
+    def esperar_por_jogador(self):          # Espera até o jogador apertar a tecla para iniciar o jogo
+        esperando = True
+        while esperando:
+            self.relogio.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    esperando = False
+                    self.roda_jogo = False
+                if event.type == pygame.KEYUP:
+                    esperando = False
+
+    def mostrar_tela_fim_de_jogo(self):
+        pass
+
+
+g = Game()
+g.mostrar_tela_inicio()
+
+
+while g.roda_jogo:
+    g.novo_jogo()
+    g.mostrar_tela_fim_de_jogo()
 
 while state != False:
     if state == True:
@@ -114,7 +216,7 @@ while state != False:
 
     # Marcador de pontos
     fonte = pygame.font.Font(None, 48)
-    marcador_pontos = fonte.render(f'Pontos: {pontos}', True, VERMELHO) # Pontos com fonte
+    marcador_pontos = fonte.render(f'Pontos: {PONTOS}', True, VERMELHO) # Pontos com fonte
     window.blit(marcador_pontos, [0, 0])
 
     
@@ -126,20 +228,20 @@ while state != False:
     if cobra.colliderect(comida):
         x_comida = randint(0, 600) 
         y_comida = randint(0, 600)
-        pontos += 1
+        PONTOS += 1
         barulho_comendo.play()
         comprimento_inicial += 30
 
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
-    if y_cobra >=  altura:
+    if y_cobra >=  ALTURA:
         y_cobra = 0
     elif y_cobra <= 0:
-        y_cobra = altura        
-    if x_cobra >= largura:
+        y_cobra = ALTURA        
+    if x_cobra >= LARGURA:
         x_cobra = 0
     elif x_cobra <= 0:
-        x_cobra = largura
+        x_cobra = LARGURA
 
     lista_cabeca = []
     lista_cabeca.append(x_cobra)
@@ -170,7 +272,7 @@ while state != False:
                 if event.type == KEYDOWN:
                     if event.key == K_r:
                         reinicia_jogo()
-            ret_texto.center = (largura / 2, altura / 2)
+            ret_texto.center = (LARGURA / 2, ALTURA / 2)
             window.blit(texto_formatado, ret_texto)
             pygame.display.update() 
 
