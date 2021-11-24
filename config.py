@@ -5,8 +5,8 @@ medidas_tela = (largura, altura)
 
 
 # Coordenadas iniciais da cobra (valores não fixos, sujeitos a alterações/baseados nas medidas da tela do jogo)
-x = (largura / 2) - (10 / 2)
-y = (altura / 2) - (10 / 2)
+x_cobra = (largura / 2) - (10 / 2)
+y_cobra = (altura / 2) - (10 / 2)
 
 
 # Definindo cores
@@ -15,10 +15,6 @@ BRANCO = (255, 255, 255)
 VERMELHO = (255, 0, 0)
 VERDE = (0, 255, 0)
 AZUL = (0, 0, 255)
-
-
-# Velocidade inicial de movimento da cobra
-vel_cobra = 10
 
 
 # Pontos
