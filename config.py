@@ -8,8 +8,8 @@ MEDIDAS_TELA = (LARGURA, ALTURA)
 
 
 # Coordenadas iniciais da cobra (valores não fixos, sujeitos a alterações/baseados nas medidas da tela do jogo)
-x_cobra = (LARGURA / 2) - (10 / 2)
-y_cobra = (ALTURA / 2) - (10 / 2)
+X_COBRA = (LARGURA / 2) - (10 / 2)
+Y_COBRA = (ALTURA / 2) - (10 / 2)
 
 
 # Definindo cores
@@ -60,3 +60,8 @@ PACSNAKE_LOGO = 'pacsnake_logo.png'
 
 # Fonte
 FONTE = 'arial'
+
+
+# Áudios
+SOM_INICIO = 'arquivo.mp3'
+TECLA_INICIO = 'munch_1.wav'
