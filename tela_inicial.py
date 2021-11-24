@@ -2,6 +2,8 @@ import pygame
 from config import *
 import sprites
 from os import *
+from typing_extensions import runtime
+from pygame.constants import QUIT
 
 
 class Game:
@@ -44,7 +46,7 @@ class Game:
 
     def atualizar_sprites(self):
         # Atualiza as sprites
-        self.all_sprites.updates()
+        self.all_sprites.update()
 
     
     def desenhar_sprites(self):
@@ -85,7 +87,7 @@ class Game:
 
         self.mostrar_logo_inicio(LARGURA / 2, 20)
 
-        self.mostrar_texto('-Pressione algum botão para jogar-', 
+        self.mostrar_texto('- Pressione algum botão para jogar -', 
                             35, 
                             AMARELO,
                             LARGURA / 2,
@@ -119,6 +121,15 @@ class Game:
         pass
 
 
+class Cobra():
+    # classe relacionadas aos parâmetros da cobra
+    def __init__(self, X_COBRA, Y_COBRA):
+        self.x_cobra = X_COBRA
+        self.y_cobra = Y_COBRA
+        self.cabeca = [X_COBRA, Y_COBRA]
+        self.comprimento_inicial = COMPRIMENTO_INICIAL
+        self.lista_cobra = [self.cabeca]
+
 g = Game()
 g.mostrar_tela_inicio()
 
@@ -126,11 +137,6 @@ g.mostrar_tela_inicio()
 while g.roda_jogo:
     g.novo_jogo()
     g.mostrar_tela_fim_de_jogo()
-
-from typing_extensions import runtime
-import pygame
-from pygame.constants import QUIT
-from config import *
 
 
 def init_tela(tela):
@@ -148,7 +154,7 @@ def init_tela(tela):
         clock.tick(FPS)
 
         for event in pygame.event.get():
-            #Verifica se o jogo foi fechado ou iniciado
+            # Verifica se o jogo foi fechado ou iniciado
             if event.type == pygame.QUIT():
                 state = QUIT
                 running = False
@@ -157,11 +163,11 @@ def init_tela(tela):
                 state = GAME
                 running = False
         
-        #SEmpre redesenha o fundo
+        # Sempre redesenha o fundo
         tela.fill(PRETO)
         tela.blit(tela_inicial,tela_inicial_rect)
         
-        #Depois inverte o display (Pq?)
+        # Depois inverte o display (Pq?)
         pygame.display.flip()
     
     return state
