@@ -56,8 +56,8 @@ class Game:
 
     def carregar_arquivos(self):
         # Carrega os arquivos (áudio, imagem,)    
-        diretorio_imagem = path.join('../', 'imagens')
-        self.diretorio_audios = path.join('../', 'musica_sons') # '../' retorna uma pasta anterior fora da pasta atual
+        diretorio_imagem = path.join(getcwd(), 'imagens')
+        self.diretorio_audios = path.join(getcwd(), 'musica_sons') # '../' retorna uma pasta anterior fora da pasta atual
         self.spritesheet = path.join(diretorio_imagem, SPRITESHEET)
         self.pacsnake_logo = path.join(diretorio_imagem, PACSNAKE_LOGO)
         self.pacsnake_logo = pygame.image.load(self.pacsnake_logo).convert() # Modificando o valor do atributo de str para imagem no pygame
@@ -91,7 +91,7 @@ class Game:
                             LARGURA / 2,
                             320
                         )
-        self.mostrar_texto('Desenvolvido por Cleilton, Matheus, Tales', 
+        self.mostrar_texto('Desenvolvido por Cleilton, Matheus e Tales.', 
                             15, 
                             BRANCO,
                             LARGURA / 2,
