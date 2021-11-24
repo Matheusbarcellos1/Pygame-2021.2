@@ -55,7 +55,7 @@ morte = False # Variável para quando a cobra de morde
 TITULO_JOGO = 'PAC-SNAKE'
 
 # Frames por segundo (FPS)
-FPS = 30
+FPS = 60
 
 
 # Imagens
