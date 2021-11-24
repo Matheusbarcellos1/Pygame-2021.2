@@ -62,7 +62,7 @@ while state != False:
         state = False
 
 
-    tempo.tick(50)    
+    tempo.tick(FPS)    
     for event in pygame.event.get():          
         if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela
             state = False

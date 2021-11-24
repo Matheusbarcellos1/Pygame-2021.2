@@ -53,7 +53,7 @@ morte = False # Variável para quando a cobra de morde
 TITULO_JOGO = 'PACSNAKE'
 
 # Frames por segundo (FPS)
-FPS = 30
+FPS = 60
 
 
 # Imagens
