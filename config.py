@@ -1,10 +1,12 @@
 from random import randint
+import pygame
 
 
-# Comprimentos da tela do jogo (valores não fixos, sujeitos a alterações)
+# Comprimentos da tela do jogo + tela do jogo (valores não fixos, sujeitos a alterações)
 LARGURA = 700
 ALTURA = 700
 MEDIDAS_TELA = (LARGURA, ALTURA)
+JANELA = pygame.display.set_mode(MEDIDAS_TELA)
 
 
 # Coordenadas iniciais da cobra (valores não fixos, sujeitos a alterações/baseados nas medidas da tela do jogo)
@@ -44,13 +46,13 @@ pontos = 0
 
 
 lista_cobra = [] # Para aumento de tamanho
-comprimento_inicial = 1
+COMPRIMENTO_INICIAL = 1
 state = True # Mantém laço do while enquanto verdadeiro
 morte = False # Variável para quando a cobra de morde
 
 
 # Nome do jogo
-TITULO_JOGO = 'PACSNAKE'
+TITULO_JOGO = 'PAC-SNAKE'
 
 # Frames por segundo (FPS)
 FPS = 60

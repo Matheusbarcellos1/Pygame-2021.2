@@ -41,9 +41,9 @@ def cresce_cobra(lista_cobra):
 def reinicia_jogo():
 
     # Redefinindo as variáveis locais
-    global PONTOS, comprimento_inicial, X_COBRA, Y_COBRA, x_comida, y_comida, lista_cobra, lista_cabeca, morte
+    global PONTOS, COMPRIMENTO_INICIAL, X_COBRA, Y_COBRA, x_comida, y_comida, lista_cobra, lista_cabeca, morte
     PONTOS = 0
-    comprimento_inicial = 1
+    COMPRIMENTO_INICIAL = 1
     X_COBRA = (LARGURA / 2) - (10 / 2)
     Y_COBRA = (ALTURA / 2) - (10 / 2)
     lista_cabeca = []
@@ -116,7 +116,7 @@ while state != False:
         y_comida = randint(0, 600)
         PONTOS += 1
         barulho_comendo.play()
-        comprimento_inicial += 30
+        COMPRIMENTO_INICIAL += 30
 
 
     # Fazendo a cobra retornar ao lado oposto quando chegar aos extremos
@@ -135,7 +135,7 @@ while state != False:
     lista_cobra.append(lista_cabeca)
 
     # Faz com que o tamanho da cobra só aumente quando ela coma uma comida
-    if len(lista_cobra) > comprimento_inicial:
+    if len(lista_cobra) > COMPRIMENTO_INICIAL:
         del lista_cobra[0]
 
     cresce_cobra(lista_cobra)
