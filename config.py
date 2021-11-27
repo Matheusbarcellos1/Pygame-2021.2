@@ -28,11 +28,11 @@ QUIT = 2
 
 # Pontos
 PONTOS = 0
+window = JANELA
 
-
-# Coordenadas comida
-x_comida = randint(0, 600)
-y_comida = randint(0, 600)
+# Coordenadas comida (RETIRAR)
+X_COMIDA = randint(0, 600)
+Y_COMIDA = randint(0, 600)
 
 
 # Coordenadas de velocidade de movimento
@@ -70,3 +70,5 @@ FONTE = 'arial'
 # Áudios
 SOM_INICIO = 'arquivo.mp3'
 TECLA_INICIO = 'munch_1.wav'
+SOM_JOGO = 'musica_do_jogo.mp3'
+SOM_COMER = ''

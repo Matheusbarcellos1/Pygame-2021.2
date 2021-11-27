@@ -1,9 +1,10 @@
-import pygame
+import pygame, sys, random
+from pygame.constants import KEYDOWN
+from pygame.locals import *
 from config import *
 import sprites
 from os import *
-from typing_extensions import runtime
-from pygame.constants import QUIT
+from pygame.math import *
 
 
 class Game:
@@ -16,7 +17,6 @@ class Game:
         self.relogio = pygame.time.Clock()
         self.roda_jogo = True
         self.fonte = pygame.font.match_font(FONTE)
-        self.carregar_arquivos()
     
     
     def novo_jogo(self):
@@ -91,7 +91,7 @@ class Game:
                             35, 
                             AMARELO,
                             LARGURA / 2,
-                            320
+                            400
                         )
         self.mostrar_texto('Desenvolvido por Cleilton, Matheus e Tales.', 
                             15, 
@@ -102,6 +102,12 @@ class Game:
         
         pygame.display.flip()
         self.esperar_por_jogador()
+
+    
+    def musica_jogo(self):
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.load(path.join(self.diretorio_audios, SOM_JOGO))
+        pygame.mixer.music.play(-1)    
 
     
     def esperar_por_jogador(self):          # Espera até o jogador apertar a tecla para iniciar o jogo
@@ -116,58 +122,65 @@ class Game:
                     esperando = False
                     pygame.mixer.music.stop()
                     pygame.mixer.Sound(path.join(self.diretorio_audios, TECLA_INICIO)).play()
+    
+
+    def update(self):
+        self.cobra.movimento_cobra()
+        self.colisao()
+
+    
+    def desenha_elementos(self):
+        self.comida.desenhar_comida()
+        self.cobra.desenhar_cobra()
+
+
+    # Problema na colisão
+    def colisao(self):
+        if self.comida.pos == self.cobra.corpo[0]: 
+            self.comida.aleatorio()
+            # self.cobra.adicionar_bloco()
+
 
     def mostrar_tela_fim_de_jogo(self):
         pass
 
 
-class Cobra():
-    # classe relacionadas aos parâmetros da cobra
-    def __init__(self, X_COBRA, Y_COBRA):
-        self.x_cobra = X_COBRA
-        self.y_cobra = Y_COBRA
-        self.cabeca = [X_COBRA, Y_COBRA]
-        self.comprimento_inicial = COMPRIMENTO_INICIAL
-        self.lista_cobra = [self.cabeca]
-
 g = Game()
+comida = Comida()
+tempo = pygame.time.Clock()    
+cobra = Cobra()
+ATUALIZA_TELA = pygame.USEREVENT # Modifica algum evento no jogo
+pygame.time.set_timer(ATUALIZA_TELA, 10)  #Velocidade constante da cobra
+
+# Inicia a tela e, após o usuário apertar uma tecla, entra na tela principal do jogo tocando a música
 g.mostrar_tela_inicio()
+pygame.display.update()
+
+g.musica_jogo() 
+
+
+jogo_principal = Game()
 
 
 while g.roda_jogo:
-    g.novo_jogo()
-    g.mostrar_tela_fim_de_jogo()
+    for event in pygame.event.get():          
+        if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela
+            g.roda_jogo = False
+        if event.type == ATUALIZA_TELA:
+            jogo_principal.update()
+        if event.type == KEYDOWN:
+            if event.key == pygame.K_UP or event.key == pygame.K_w:
+                jogo_principal.cobra.direcao = Vector2(0, -2)
+            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                jogo_principal.cobra.direcao = Vector2(0, 2)
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                jogo_principal.cobra.direcao = Vector2(2, 0)
+            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                jogo_principal.cobra.direcao = Vector2(-2, 0)
 
 
-def init_tela(tela):
-    #variável de ajuste da velocidade da atualização
-    clock = pygame.time.Clock()
-
-    #carrega a tela de fundo
-    tela_inicial = pygame.image.load('assets/img/"TELA DE FUNDO".png').convert()
-    tela_inicial_rect = tela_inicial.get_rect()
-
-    running = True
-    while running:
-
-        # Ajusta a velocidade de atualização
-        clock.tick(FPS)
-
-        for event in pygame.event.get():
-            # Verifica se o jogo foi fechado ou iniciado
-            if event.type == pygame.QUIT():
-                state = QUIT
-                running = False
-            
-            if event.type == pygame.KEYUP:
-                state = GAME
-                running = False
-        
-        # Sempre redesenha o fundo
-        tela.fill(PRETO)
-        tela.blit(tela_inicial,tela_inicial_rect)
-        
-        # Depois inverte o display (Pq?)
-        pygame.display.flip()
-    
-    return state
+       
+    JANELA.fill(PRETO)
+    jogo_principal.desenha_elementos()
+    pygame.display.update()
+    tempo.tick(60)

@@ -1,6 +1,6 @@
 import pygame
 from random import randint
-from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, KEYDOWN, QUIT, K_a, K_d, K_r, K_s, K_w # O que é isso??????
+from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, KEYDOWN, QUIT, K_a, K_d, K_r, K_s, K_w 
 from config import *
 from sys import exit
 import sprites
@@ -54,14 +54,6 @@ def reinicia_jogo():
 
 
 while state != False:
-    if state == True:
-        state = 1
-    elif state == 1:
-        state = [0,'x']
-    else:
-        state = False
-
-
     tempo.tick(FPS)    
     for event in pygame.event.get():          
         if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela
