@@ -71,4 +71,6 @@ FONTE = 'arial'
 SOM_INICIO = 'arquivo.mp3'
 TECLA_INICIO = 'munch_1.wav'
 SOM_JOGO = 'musica_do_jogo.mp3'
-SOM_COMER = ''
+SOM_COMER = 'cobra_comendo.wav'
+SOM_MORTE="death_1.wav"
+SOM_GAME_OVER="intermission.wav"
