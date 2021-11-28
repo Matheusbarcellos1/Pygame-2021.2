@@ -214,19 +214,27 @@ pygame.time.set_timer(SCREEN_UPDATE, 150)
 main_game = MAIN()
 #assets
 def load_assets():
-    assets={}
-    assets['tela de inicio'] = pygame.image.load('imagens/tela_inicio.png').convert() 
+    assets= {}
+    assets['tela de inicio'] = pygame.image.load('image/ tela_inicio.jpg').convert() 
     assets['tela de inicio'] = pygame.transform.scale(assets["tela de inicio"], (cell_number * cell_size, cell_number * cell_size))
-    assets['final'] = pygame.image.load('imagens/cobra.png').convert_alpha() 
+    assets['final'] = pygame.image.load('image/ cobra.jpg').convert_alpha() 
     assets['final'] = pygame.transform.scale(assets["final"], (cell_number * cell_size, cell_number * cell_size)) 
-    keys_down = {}
+    return assets
+
+keys_down = {}
     #Estado do jogo
-    DONE = 0 #o jogo terminou
-    PLAYING = 1 #o jogador está jogando
-    TELA = 2
-    FINAL = 3
-    #Trata eventos
-    while state == TELA:
+DONE = 0 #o jogo terminou
+PLAYING = 1 #o jogador está jogando
+TELA = 2
+FINAL = 3
+assets = load_assets()
+def gamescreen(window):
+    tempo_p_up = 20000
+    
+#Definindo os frames por segundo para ajustar a velocidade da bola
+clock = pygame.time.Clock()
+#Trata eventos
+while state == TELA:
         window.fill((255, 255, 255))
         window.blit(assets["tela de inicio"], (0, 0))
         window.blit(Titulo,(50,150))
@@ -234,14 +242,14 @@ def load_assets():
         pygame.display.update() 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                state = DONE
+                    state = DONE
             if state == TELA:
                 if event.type == pygame.KEYDOWN:
                     # Dependendo da tecla, altera a velocidade.
                     keys_down[event.key] = True
                     if event.key == pygame.K_RETURN:
                             state = PLAYING
-    while state == FINAL:
+while state == FINAL:
         window.fill((255, 255, 255))
         window.blit(assets["final"], (0, 0))
         window.blit(game_over,(75,150))
