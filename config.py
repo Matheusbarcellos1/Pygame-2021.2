@@ -13,6 +13,8 @@ JANELA = pygame.display.set_mode(MEDIDAS_TELA)
 X_COBRA = (LARGURA / 2) - (10 / 2)
 Y_COBRA = (ALTURA / 2) - (10 / 2)
 
+cell_size = 20
+cell_number = 35
 
 # Definindo cores
 PRETO = (0, 0, 0)
@@ -40,8 +42,7 @@ velocidade = 5
 vel_x = velocidade
 vel_y = 0
 
-cell_size = 20
-cell_number = 35
+
 # Pontos
 pontos = 0
 
