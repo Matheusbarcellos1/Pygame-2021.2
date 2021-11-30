@@ -1,7 +1,9 @@
 import random
 import pygame
 from config import *
-from pygame.math import Vector2 
+from assets import *
+from pygame.math import Vector2
+
 class SNAKE():
     def __init__(self):
         # Definindo coordenadas do corpo da cobra
@@ -52,9 +54,39 @@ class SNAKE():
         elif tail_relation == Vector2(0,1): 
             self.tail = self.tail_up
         elif tail_relation == Vector2(0,-1): 
-            self.tail = self.tail_down    
+            self.tail = self.tail_down        
 
-    
+    def draw_snake(self,screen):
+        self.update_head_graphics()
+        self.update_tail_graphics()
+
+        for index, block in enumerate(self.body):
+            x_pos = int(block.x * cell_size)
+            y_pos = int(block.y * cell_size) 
+            block_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
+
+            if index == 0:
+                screen.blit(self.head, block_rect)    
+            elif index == len(self.body) - 1:
+                screen.blit(self.tail, block_rect)
+            else:
+                previous_block = self.body[index + 1] - block
+                next_block = self.body[index - 1] - block
+                if previous_block.x == next_block.x:
+                    screen.blit(self.body_vertical, block_rect)
+                if previous_block.y == next_block.y:
+                    screen.blit(self.body_horizontal, block_rect)
+                else:
+                    if previous_block.x == -1 and next_block.y == - 1 or previous_block.y == -1 and next_block.x == -1: 
+                        screen.blit(self.body_tl, block_rect)
+                    elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1: 
+                        screen.blit(self.body_bl, block_rect)
+                    elif previous_block.x == 1 and next_block.y == - 1 or previous_block.y == -1 and next_block.x == 1: 
+                        screen.blit(self.body_tr, block_rect)
+                    elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1: 
+                        screen.blit(self.body_br, block_rect)
+
+
 
     def move_snake(self):
         if self.new_block == True:
@@ -80,9 +112,3 @@ class SNAKE():
         self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
         self.direction = Vector2(0,0)
         
-
-class FRUIT():
-    def __init__(self):
-        self.x = random.randint(0, cell_number - 2)
-        self.y = random.randint(0, cell_number - 2)
-        self.pos = Vector2(self.x, self.y)
