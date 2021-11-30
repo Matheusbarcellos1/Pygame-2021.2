@@ -40,7 +40,8 @@ velocidade = 5
 vel_x = velocidade
 vel_y = 0
 
-
+cell_size = 20
+cell_number = 35
 # Pontos
 pontos = 0
 
