@@ -263,8 +263,8 @@ clock = pygame.time.Clock()
 while state == TELA:
         window.fill((255, 255, 255))
         window.blit(assets["tela de inicio"], (0, 0))
-        window.blit(Titulo,(50,150))
-        window.blit(start,(50,250))
+        window.blit(Titulo,(160,100))
+        window.blit(start,(cell_number * cell_size / 3 - 50, cell_number * cell_size / 2 + 300))
         pygame.display.update() 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
