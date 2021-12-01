@@ -27,6 +27,25 @@ class SNAKE():
         self.body_br = pygame.image.load('imagens/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('imagens/body_bl.png').convert_alpha()
 
+        # Alterando escalas de todas as imagens
+        self.head_up = pygame.transform.scale(self.head_up, (cell_size, cell_size))
+        self.head_down = pygame.transform.scale(self.head_down, (cell_size, cell_size))
+        self.head_right = pygame.transform.scale(self.head_right, (cell_size, cell_size))
+        self.head_left = pygame.transform.scale(self.head_left, (cell_size, cell_size))
+
+        self.tail_up = pygame.transform.scale(self.tail_up, (cell_size, cell_size))
+        self.tail_down = pygame.transform.scale(self.tail_down, (cell_size, cell_size))
+        self.tail_right = pygame.transform.scale(self.tail_right, (cell_size, cell_size))
+        self.tail_left = pygame.transform.scale(self.tail_left, (cell_size, cell_size))
+
+        self.body_vertical = pygame.transform.scale(self.body_vertical, (cell_size, cell_size))
+        self.body_horizontal = pygame.transform.scale(self.body_horizontal, (cell_size, cell_size))
+
+        self.body_tl = pygame.transform.scale(self.body_tl, (cell_size, cell_size))
+        self.body_tr = pygame.transform.scale(self.body_tr, (cell_size, cell_size))
+        self.body_br = pygame.transform.scale(self.body_br, (cell_size, cell_size))
+        self.body_bl = pygame.transform.scale(self.body_bl, (cell_size, cell_size))
+
         # Jogo principal
         self.crunch_sound = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
         self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')
@@ -123,12 +142,13 @@ class FRUIT():
         self.y = random.randint(0, cell_number - 2)
         self.pos = Vector2(self.x, self.y)
 
+
 class MAIN():
     def __init__(self):
         self.snake = SNAKE()
         self.fruit = FRUIT()
         self.snake.play_game_music_sound()
-    
+
     def update(self):
         self.snake.move_snake()
         self.check_collision()
@@ -202,6 +222,7 @@ SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 
 main_game = MAIN()
+
 
 while True:
     for event in pygame.event.get():          
