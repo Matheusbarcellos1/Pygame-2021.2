@@ -252,14 +252,12 @@ PLAYING = 1 #o jogador está jogando
 TELA = 2
 state = TELA
 assets = load_assets()
-
 # Variáveis para pausar o jogo
 RUNNING = 0
 PAUSED = 1
 game = RUNNING
 
 
-# Apresenta a tela inicial do jogo
 while state == TELA:
         screen.fill((255, 255, 255))
         screen.blit(assets["tela de inicio"], (0, 0))
@@ -274,10 +272,9 @@ while state == TELA:
                     # Dependendo da tecla, altera a velocidade.
                     keys_down[event.key] = True
                     if event.key == pygame.K_RETURN:
-                            state = PLAYING
+                            state = PLAYING                       
 
 
-# Apresenta o código principal do jogo
 while True:
     for event in pygame.event.get():          
         if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela
@@ -301,7 +298,9 @@ while True:
             if event.key == pygame.K_p:  # Em caso de apertar a tecla "p", pausa o jogo
                 if game != PAUSED:
                     game = PAUSED
+                    pygame.mixer.pause()
                 else:
+                    pygame.mixer.unpause()
                     game = RUNNING
     if game == PAUSED:
         pygame.display.flip()
