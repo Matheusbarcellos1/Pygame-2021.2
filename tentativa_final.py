@@ -200,7 +200,7 @@ window = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 #Printando a tela
 font = pygame.font.SysFont(None, 48)
 font1= pygame.font.SysFont(None, 80)
-Titulo = font1.render('Jogo da cobra', True, (140, 50, 50))
+Titulo = font1.render('Jogo da cobra', True, (140, 50,50))
 start = font.render('Press "enter" to start', True, (0, 0, 0))
 game_over = font1.render('Game Over', True, (0, 0, 0))
 novamente = font.render('Quer jogar novamente? Pressione Enter', True, (0, 0, 0))
@@ -224,24 +224,27 @@ def load_assets():
     return assets
 
 keys_down = {}
-    #Estado do jogo
+#Estado do jogo
 DONE = 0 #o jogo terminou
 PLAYING = 1 #o jogador está jogando
 TELA = 2
 FINAL = 3
+state = TELA
 assets = load_assets()
-def gamescreen(window):
-    tempo_p_up = 20000
-    
+list_lives = []
+vidas = 0
+if len(list_lives) == 1:
+    vidas = 0
+if len(list_lives) == 2:
+    state = FINAL
 #Definindo os frames por segundo para ajustar a velocidade da bola
 clock = pygame.time.Clock()
 #Trata eventos
-state = TELA
 while state == TELA:
         window.fill((255, 255, 255))
         window.blit(assets["tela de inicio"], (0, 0))
         window.blit(Titulo,(50,150))
-        window.blit(start,(90,250))
+        window.blit(start,(50,250))
         pygame.display.update() 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -252,6 +255,7 @@ while state == TELA:
                     keys_down[event.key] = True
                     if event.key == pygame.K_RETURN:
                             state = PLAYING
+                            
 while state == FINAL:
         window.fill((255, 255, 255))
         window.blit(assets["final"], (0, 0))
