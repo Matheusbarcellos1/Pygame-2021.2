@@ -259,6 +259,21 @@ if len(list_lives) == 2:
     state = FINAL
 #Definindo os frames por segundo para ajustar a velocidade da bola
 clock = pygame.time.Clock()
+def pause():
+        paused=True
+        while paused:
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_c:
+                        paused=False
+                    elif event.key==pygame.K_q:
+                        pygame.quit()
+                        quit()
+            pygame.display.update()
+            clock.tick(15)
 #Trata eventos
 while state == TELA:
         window.fill((255, 255, 255))
@@ -275,6 +290,8 @@ while state == TELA:
                     keys_down[event.key] = True
                     if event.key == pygame.K_RETURN:
                             state = PLAYING
+                    elif event.key==pygame.K_p:
+                        pause()
                             
 while state == FINAL:
         window.fill((255, 255, 255))
