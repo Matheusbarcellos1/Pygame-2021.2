@@ -1,7 +1,8 @@
 import pygame
 from config import *
-from tela_inicial import init_tela, game_over
-from tela_do_jogo import tela_do_jogo
+from classes import *
+from telas import *
+from assets import load_assets
 
 
 pygame.init()
@@ -10,22 +11,23 @@ pygame.mixer.init()
 tela = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size)) #cria a tela do jogo
 pygame.display.set_caption('Pacobrinha')
 
-PLAYING = 1
+assets = load_assets(tela)
+jogo = MAIN2(tela,assets)
+state = TELA
 
-state = INIT
 
-while state != QUIT:
+while state != DONE:
     
-    if state == INIT:
-        state = init_tela(tela)
+    if state == TELA:
+        state = tela_inicio(tela,assets)
     
     elif state == PLAYING:
-        state = tela_do_jogo(tela)
+        state = tela_jogo(tela,jogo,assets)
     
     elif state == DEAD:
-        state = game_over(tela)
+        state = tela_game_over(tela)
 
     else:
-        state = QUIT
+        state = DONE
 
 pygame.quit()
