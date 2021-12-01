@@ -2,7 +2,7 @@ import pygame, sys, random
 from config import *
 from sprites import *
 
-
+PLAYING = 1
 
 def init_tela(tela):
     clock  = pygame.time.Clock()
@@ -23,7 +23,7 @@ def init_tela(tela):
                 running = False
             
             if event.type == pygame.KEYDOWN:
-                state = GAME
+                state = PLAYING
                 running = False
         
         tela.fill(PRETO)

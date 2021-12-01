@@ -7,6 +7,8 @@ from sprites import *
 assets = load_assets()
 apple = assets['apple']
 graminha = pygame.image.load('imagens/graminha.jpg').convert_alpha()
+
+
 def tela_do_jogo(tela):
 
     clock = pygame.time.Clock()
@@ -20,8 +22,7 @@ def tela_do_jogo(tela):
     DONE = 0
     PLAYING = 1
     DEAD = 2
-    
-    state = PLAYING
+
 
     keys_down = {}
     score = 0
@@ -29,14 +30,14 @@ def tela_do_jogo(tela):
     musics = assets['game_sound'] 
     musics.play()
 
-    while state!= DONE:
+    while state != DONE:
         clock.tick(FPS)
 
         for event in pygame.event.get():
             
             if event.type == pygame.QUIT:
                 state = DONE
-            
+
             if state == PLAYING:
 
                 if event.type == pygame.KEYDOWN:
@@ -52,7 +53,7 @@ def tela_do_jogo(tela):
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                         if cobra.direction.x != 1:
                             cobra.direction = Vector2(-1, 0)
-        
+                    
         #all_sprites.update()
         cobra.move_snake()
 

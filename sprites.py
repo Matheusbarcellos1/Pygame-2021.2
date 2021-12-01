@@ -30,7 +30,7 @@ class SNAKE(pygame.sprite.Group):
         self.body_br = pygame.image.load('imagens/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('imagens/body_bl.png').convert_alpha()
 
-        #Carregando Sonos do jogo
+        #Carregando Sons do jogo
         self.crunch_sound = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
         self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')       
 
@@ -81,8 +81,6 @@ class SNAKE(pygame.sprite.Group):
                     elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1: 
                         screen.blit(self.body_br, block_rect)
 
-
-
     def move_snake(self):
         if self.new_block == True:
             body_copy = self.body[:]
@@ -96,6 +94,8 @@ class SNAKE(pygame.sprite.Group):
     
     def add_block(self):
         self.new_block = True
+
+
 class FRUIT():
     def __init__(self):
         self.x = random.randint(0, cell_number - 2)

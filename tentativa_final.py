@@ -1,10 +1,13 @@
+from os import X_OK
 import pygame, sys, random
 from pygame.math import Vector2
-
+from assets import load_assets
 
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.set_volume(0.4)
+
+
 class SNAKE():
     def __init__(self):
         # Definindo coordenadas do corpo da cobra
@@ -53,8 +56,7 @@ class SNAKE():
 
         self.crunch_sound = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
         self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')
-        
-        
+
 
     def draw_snake(self):
         self.update_head_graphics()
@@ -145,7 +147,15 @@ class FRUIT():
         self.x = random.randint(0, cell_number - 2)
         self.y = random.randint(0, cell_number - 2)
         self.pos = Vector2(self.x, self.y)
-
+    
+    def draw_fruit(self):
+        fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(apple, fruit_rect)
+    
+    def randomize(self):
+        self.x = random.randint(0, cell_number - 2)
+        self.y = random.randint(0, cell_number - 2)
+        self.pos = Vector2(self.x, self.y)
 
 class MAIN():
     def __init__(self):
@@ -170,7 +180,7 @@ class MAIN():
             self.snake.add_block()
             self.snake.play_crunch_sound()
 
-        for block in self.snake.body[1:]:
+        for block in self.snake.body[1:]: # Colisão entre a cobra e a comida
             if block == self.fruit.pos:
                 self.fruit.randomize()
 
@@ -178,13 +188,14 @@ class MAIN():
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
             self.game_over()
 
-        for block in self.snake.body[1:]:
+        for block in self.snake.body[1:]: # Colisão quando a cobra morde o corpo ou a cauda
             if block == self.snake.body[0]:
                 self.game_over()
-
+        
     def game_over(self):
         self.snake.reset()
-    
+ 
+    # Desenha na tela do mato como plano de fundo
     def draw_grass(self):
         grass_color = (167, 209, 61)
         for row in range(cell_number):
@@ -199,6 +210,7 @@ class MAIN():
                         grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rect) 
 
+    # Desenha na tela os pontos do jogador
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
@@ -213,17 +225,15 @@ class MAIN():
         screen.blit(apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
+
 cell_size = 20
 cell_number = 35
-tela_inicio = window = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size)) #cria a tela do jogo
-window = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size)) #cria a tela do jogo
-#Printando a tela
+
+# Printando na tela inicial
 font = pygame.font.SysFont(None, 48)
 font1= pygame.font.SysFont(None, 80)
-Titulo = font1.render('Jogo da cobra', True, (140, 50,50))
+Titulo = font1.render('SnA-PaC GaMe', True, (140, 50,50))
 start = font.render('Press "enter" to start', True, (0, 0, 0))
-game_over = font1.render('Game Over', True, (0, 0, 0))
-novamente = font.render('Quer jogar novamente? Pressione Enter', True, (0, 0, 0))
 
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 clock = pygame.time.Clock()
@@ -234,37 +244,27 @@ SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 
 main_game = MAIN()
-#assets
-def load_assets():
-    assets= {}
-    assets['tela de inicio'] = pygame.image.load('imagens/tela_inicio.jpg').convert() 
-    assets['tela de inicio'] = pygame.transform.scale(assets["tela de inicio"], (cell_number * cell_size, cell_number * cell_size))
-    assets['final'] = pygame.image.load('imagens/cobra.jpg').convert_alpha() 
-    assets['final'] = pygame.transform.scale(assets["final"], (cell_number * cell_size, cell_number * cell_size)) 
-    return assets
 
 keys_down = {}
 #Estado do jogo
 DONE = 0 #o jogo terminou
 PLAYING = 1 #o jogador está jogando
 TELA = 2
-FINAL = 3
 state = TELA
 assets = load_assets()
-list_lives = []
-vidas = 0
-if len(list_lives) == 1:
-    vidas = 0
-if len(list_lives) == 2:
-    state = FINAL
-#Definindo os frames por segundo para ajustar a velocidade da bola
-clock = pygame.time.Clock()
-#Trata eventos
+
+# Variáveis para pausar o jogo
+RUNNING = 0
+PAUSED = 1
+game = RUNNING
+
+
+# Apresenta a tela inicial do jogo
 while state == TELA:
-        window.fill((255, 255, 255))
-        window.blit(assets["tela de inicio"], (0, 0))
-        window.blit(Titulo,(160,100))
-        window.blit(start,(cell_number * cell_size / 3 - 50, cell_number * cell_size / 2 + 300))
+        screen.fill((255, 255, 255))
+        screen.blit(assets["tela de inicio"], (0, 0))
+        screen.blit(Titulo,(160,100))
+        screen.blit(start,(cell_number * cell_size / 3 - 50, cell_number * cell_size / 2 + 300))
         pygame.display.update() 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -275,32 +275,15 @@ while state == TELA:
                     keys_down[event.key] = True
                     if event.key == pygame.K_RETURN:
                             state = PLAYING
-                            
-while state == FINAL:
-        window.fill((255, 255, 255))
-        window.blit(assets["final"], (0, 0))
-        window.blit(game_over,(75,150))
-        pygame.display.update() 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                state = DONE
-            if state == FINAL:
-                if event.type == pygame.KEYDOWN:
-                    # Dependendo da tecla, altera a velocidade.
-                    keys_down[event.key] = True
-                    if event.key == pygame.K_RETURN:
-                        state = PLAYING
-                    else:
-                        state = DONE
-        window.fill((255, 255, 255))
-        window.blit(assets["tela de inicio"], (0, 0))
-    
+
+
+# Apresenta o código principal do jogo
 while True:
     for event in pygame.event.get():          
         if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela
             pygame.quit()
             sys.exit()
-        if event.type == SCREEN_UPDATE:
+        if event.type == SCREEN_UPDATE and game != PAUSED:
             main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -315,6 +298,14 @@ while True:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 if main_game.snake.direction.x != 1:
                     main_game.snake.direction = Vector2(-1, 0)
+            if event.key == pygame.K_p:  # Em caso de apertar a tecla "p", pausa o jogo
+                if game != PAUSED:
+                    game = PAUSED
+                else:
+                    game = RUNNING
+    if game == PAUSED:
+        pygame.display.flip()
+        continue
             
     pygame.display.update()
     screen.fill((175, 215, 70))

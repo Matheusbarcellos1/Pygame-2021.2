@@ -35,3 +35,13 @@ def load_assets():
     assets['nham'] = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
     assets['game_sound'] = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')
     return assets
+
+
+#assets
+def load_assets():
+    assets= {}
+    assets['tela de inicio'] = pygame.image.load('imagens/tela_inicio.jpg').convert() 
+    assets['tela de inicio'] = pygame.transform.scale(assets["tela de inicio"], (cell_number * cell_size, cell_number * cell_size))
+    assets['final'] = pygame.image.load('imagens/cobra.jpg').convert_alpha() 
+    assets['final'] = pygame.transform.scale(assets["final"], (cell_number * cell_size, cell_number * cell_size)) 
+    return assets
