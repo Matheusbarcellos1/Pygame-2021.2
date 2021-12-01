@@ -1,6 +1,10 @@
 import pygame, sys, random
 from pygame.math import Vector2
 
+
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.set_volume(0.4)
 class SNAKE():
     def __init__(self):
         # Definindo coordenadas do corpo da cobra
@@ -46,7 +50,7 @@ class SNAKE():
         self.body_br = pygame.transform.scale(self.body_br, (cell_size, cell_size))
         self.body_bl = pygame.transform.scale(self.body_bl, (cell_size, cell_size))
 
-        # Jogo principal
+
         self.crunch_sound = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
         self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')
         
@@ -209,10 +213,18 @@ class MAIN():
         screen.blit(apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
+cell_size = 20
+cell_number = 35
+tela_inicio = window = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size)) #cria a tela do jogo
+window = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size)) #cria a tela do jogo
+#Printando a tela
+font = pygame.font.SysFont(None, 48)
+font1= pygame.font.SysFont(None, 80)
+Titulo = font1.render('Jogo da cobra', True, (140, 50,50))
+start = font.render('Press "enter" to start', True, (0, 0, 0))
+game_over = font1.render('Game Over', True, (0, 0, 0))
+novamente = font.render('Quer jogar novamente? Pressione Enter', True, (0, 0, 0))
 
-pygame.init()
-cell_size = 40
-cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 clock = pygame.time.Clock()
 apple = pygame.image.load('imagens/food.png').convert_alpha()
@@ -222,8 +234,67 @@ SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 
 main_game = MAIN()
+#assets
+def load_assets():
+    assets= {}
+    assets['tela de inicio'] = pygame.image.load('imagens/tela_inicio.jpg').convert() 
+    assets['tela de inicio'] = pygame.transform.scale(assets["tela de inicio"], (cell_number * cell_size, cell_number * cell_size))
+    assets['final'] = pygame.image.load('imagens/cobra.jpg').convert_alpha() 
+    assets['final'] = pygame.transform.scale(assets["final"], (cell_number * cell_size, cell_number * cell_size)) 
+    return assets
 
-
+keys_down = {}
+#Estado do jogo
+DONE = 0 #o jogo terminou
+PLAYING = 1 #o jogador está jogando
+TELA = 2
+FINAL = 3
+state = TELA
+assets = load_assets()
+list_lives = []
+vidas = 0
+if len(list_lives) == 1:
+    vidas = 0
+if len(list_lives) == 2:
+    state = FINAL
+#Definindo os frames por segundo para ajustar a velocidade da bola
+clock = pygame.time.Clock()
+#Trata eventos
+while state == TELA:
+        window.fill((255, 255, 255))
+        window.blit(assets["tela de inicio"], (0, 0))
+        window.blit(Titulo,(50,150))
+        window.blit(start,(50,250))
+        pygame.display.update() 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    state = DONE
+            if state == TELA:
+                if event.type == pygame.KEYDOWN:
+                    # Dependendo da tecla, altera a velocidade.
+                    keys_down[event.key] = True
+                    if event.key == pygame.K_RETURN:
+                            state = PLAYING
+                            
+while state == FINAL:
+        window.fill((255, 255, 255))
+        window.blit(assets["final"], (0, 0))
+        window.blit(game_over,(75,150))
+        pygame.display.update() 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                state = DONE
+            if state == FINAL:
+                if event.type == pygame.KEYDOWN:
+                    # Dependendo da tecla, altera a velocidade.
+                    keys_down[event.key] = True
+                    if event.key == pygame.K_RETURN:
+                        state = PLAYING
+                    else:
+                        state = DONE
+        window.fill((255, 255, 255))
+        window.blit(assets["tela de inicio"], (0, 0))
+    
 while True:
     for event in pygame.event.get():          
         if event.type == pygame.QUIT:           # Fecha a janela do jogo quando aperta no 'X' da tela

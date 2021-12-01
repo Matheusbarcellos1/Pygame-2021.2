@@ -13,6 +13,8 @@ JANELA = pygame.display.set_mode(MEDIDAS_TELA)
 X_COBRA = (LARGURA / 2) - (10 / 2)
 Y_COBRA = (ALTURA / 2) - (10 / 2)
 
+cell_size = 20
+cell_number = 35
 
 # Definindo cores
 PRETO = (0, 0, 0)
@@ -71,4 +73,6 @@ FONTE = 'arial'
 SOM_INICIO = 'arquivo.mp3'
 TECLA_INICIO = 'munch_1.wav'
 SOM_JOGO = 'musica_do_jogo.mp3'
-SOM_COMER = ''
+SOM_COMER = 'cobra_comendo.wav'
+SOM_MORTE="death_1.wav"
+SOM_GAME_OVER="intermission.wav"

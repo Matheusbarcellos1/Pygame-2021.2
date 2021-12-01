@@ -1,4 +1,5 @@
-# BitGame
+# Jogo da Cobra
+
 Link do jogo no youtube:************************
 
 Jogo desenvolvido como projeto final da diciplina Design de Software, pelos alunos:Cleilton Sousa,Matheus Barcellos,Tales Ivalque
