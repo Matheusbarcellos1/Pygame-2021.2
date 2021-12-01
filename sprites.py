@@ -32,9 +32,9 @@ class SNAKE():
 
         #Carregando Sonos do jogo
         self.crunch_sound = pygame.mixer.Sound('musica_sons/cobra_comendo.wav')
-        self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')
-        
-    def update_head_graphics(self):
+        self.game_music_sound = pygame.mixer.Sound('musica_sons/musica_do_jogo.mp3')       
+
+    def draw_snake(self,screen):
         head_relation = self.body[1] - self.body[0]
         if head_relation == Vector2(1,0): 
             self.head = self.head_left
@@ -44,8 +44,7 @@ class SNAKE():
             self.head = self.head_up
         elif head_relation == Vector2(0,-1): 
             self.head = self.head_down
-
-    def update_tail_graphics(self):
+        
         tail_relation = self.body[-2] - self.body[-1]
         if tail_relation == Vector2(1,0): 
             self.tail = self.tail_left
@@ -54,11 +53,7 @@ class SNAKE():
         elif tail_relation == Vector2(0,1): 
             self.tail = self.tail_up
         elif tail_relation == Vector2(0,-1): 
-            self.tail = self.tail_down        
-
-    def draw_snake(self,screen):
-        self.update_head_graphics()
-        self.update_tail_graphics()
+            self.tail = self.tail_down  
 
         for index, block in enumerate(self.body):
             x_pos = int(block.x * cell_size)
@@ -101,14 +96,15 @@ class SNAKE():
     
     def add_block(self):
         self.new_block = True
+class FRUIT():
+    def __init__(self):
+        self.x = random.randint(0, cell_number - 2)
+        self.y = random.randint(0, cell_number - 2)
+        self.pos = Vector2(self.x, self.y)
+        
 
-    def play_crunch_sound(self):
-        self.crunch_sound.play()
-
-    def play_game_music_sound(self):
-        self.game_music_sound.play()
-
-    def reset(self):
-        self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
-        self.direction = Vector2(0,0)
+    def draw_fruit(self,screen,apple):
+        fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(apple, fruit_rect)
+    
         
