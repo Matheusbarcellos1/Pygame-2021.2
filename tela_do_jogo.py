@@ -1,40 +1,40 @@
 import pygame
+
 from config import *
 from assets import *
 from sprites import *
-from tentativa_final import FRUIT
 
+assets = load_assets()
+apple = assets['apple']
+graminha = pygame.image.load('imagens/graminha.jpg').convert_alpha()
 def tela_do_jogo(tela):
 
     clock = pygame.time.Clock()
-    all_bodies = pygame.sprite.Group()
-    all_fruits = pygame.sprite.Group()
-
-    groups = {}
-    groups['frutas'] = all_fruits
-    groups['corpos'] = all_bodies
+    
 
     cobra = SNAKE()
-    all_bodies.add(cobra)
 
     fruta = FRUIT()
-    all_fruits.add(fruta)
+
 
     DONE = 0
     PLAYING = 1
-    DEAD = 3
-    EXPLODING = 2
+    DEAD = 2
+    
     state = PLAYING
 
     keys_down = {}
     score = 0
 
-    pygame.mixer.music.play(loops = -1)
+    musics = assets['game_sound'] 
+    musics.play()
+
     while state!= DONE:
         clock.tick(FPS)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT():
+            
+            if event.type == pygame.QUIT:
                 state = DONE
             
             if state == PLAYING:
@@ -62,7 +62,7 @@ def tela_do_jogo(tela):
             if fruta.pos == cobra.body[0]:
                 fruta.kill()
                 fruta = FRUIT()
-                all_fruits.add(fruta)
+                
                 cobra.add_block()
                 #play crunch sound
 
@@ -80,10 +80,11 @@ def tela_do_jogo(tela):
             for block in cobra.body[1:]:
                 if block == cobra.body[0]:
                     state = DEAD
-                    cobra.kill()
-            
+                    cobra = SNAKE()
+        tela.fill(PRETO)
+        tela.blit(graminha,(0,0))    
         cobra.draw_snake(tela)
-        fruta.draw_fruit(tela)
+        fruta.draw_fruit(tela,apple)
 
 
     #criando os corpos do jogo

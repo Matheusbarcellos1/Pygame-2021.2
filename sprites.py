@@ -4,7 +4,7 @@ from config import *
 from assets import *
 from pygame.math import Vector2
 
-class SNAKE():
+class SNAKE(pygame.sprite.Group):
     def __init__(self):
         # Definindo coordenadas do corpo da cobra
         self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]

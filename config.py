@@ -27,7 +27,7 @@ AMARELO = (244, 233, 51)
 INIT = 0
 GAME = 1
 QUIT = 2
-
+DEAD = 3
 # Pontos
 PONTOS = 0
 window = JANELA
