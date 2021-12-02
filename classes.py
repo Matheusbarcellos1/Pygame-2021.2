@@ -163,7 +163,8 @@ class MAIN2():
             self.fruit = FRUIT(assets)
             self.snake.add_block()
             crunch.play()
-
+        if self.fruit.pos == self.rock1.pos or self.fruit.pos == self.rock1.pos + Vector2(1,0) or self.fruit.pos == self.rock1.pos + Vector2(0,1) or self.fruit.pos == self.rock1.pos + Vector2(1,1) or self.fruit.pos == self.rock2.pos or self.fruit.pos == self.rock2.pos + Vector2(1,0) or self.fruit.pos == self.rock2.pos + Vector2(0,1) or self.fruit.pos == self.rock2.pos + Vector2(1,1) or self.fruit.pos == self.rock3.pos or self.fruit.pos == self.rock3.pos + Vector2(1,0) or self.fruit.pos == self.rock3.pos + Vector2(0,1) or self.fruit.pos == self.rock3.pos + Vector2(1,1):
+            self.fruit = FRUIT(assets)
         for block in self.snake.body[1:]: # Colisão entre a cobra e a comida
             if block == self.fruit.pos:
                 self.fruit = FRUIT(assets)
