@@ -1,6 +1,8 @@
 # Jogo da Pacobrinha
 
-Link do jogo no youtube:************************
+*Link do jogo no youtube:* 
+
+    https://www.youtube.com/watch?v=EY5uUTZAU8g
 
 Jogo desenvolvido como o projeto final da diciplina Design de Software, pelos alunos:
 `Cleilton Sousa`, `Matheus Barcellos` e `Tales Ivalque`.
