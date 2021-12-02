@@ -31,7 +31,9 @@ def load_assets(tela):
     assets['tela_inicio'] = pygame.transform.scale(assets['tela_inicio'], (cell_number * cell_size, cell_number * cell_size))
     assets['final'] = pygame.image.load('imagens/cobra.jpg').convert_alpha() 
     assets['final'] = pygame.transform.scale(assets['final'], (cell_number * cell_size, cell_number * cell_size)) 
-   
+    
+    assets['rock'] = pygame.image.load('imagens/rock.png').convert_alpha()
+    assets['rock'] = pygame.transform.scale(assets['rock'], (2*cell_size, 2*cell_size))
     assets['head_up'] = pygame.transform.scale(assets['head_up'], (cell_size, cell_size))
     assets['head_down'] = pygame.transform.scale(assets['head_down'], (cell_size, cell_size))
     assets['head_right'] = pygame.transform.scale(assets['head_right'], (cell_size, cell_size))

@@ -19,10 +19,14 @@ state = TELA
 while state != DONE:
     
     if state == TELA:
+        pygame.mixer.pause()
         state = tela_inicio(tela,assets)
+        
     
     elif state == PLAYING:
+        pygame.mixer.unpause()
         state = tela_jogo(tela,jogo,assets)
+        
     
     elif state == DEAD:
         state = tela_game_over(tela)

@@ -97,6 +97,9 @@ class MAIN2():
     def __init__(self,screen,assets):
         self.snake = SNAKE(assets)
         self.fruit = FRUIT(assets)
+        self.rock1 = Obstacle(assets)
+        self.rock2 = Obstacle(assets)
+        self.rock3 = Obstacle(assets)
         music.play()
         self.game_font = pygame.font.Font(None, 25)
 
@@ -110,11 +113,20 @@ class MAIN2():
         self.draw_fruit(tela)
         self.draw_snake(tela)
         self.draw_score(tela)
+        self.draw_rock(tela)
 
     def draw_fruit(self,screen):
         fruit_rect = pygame.Rect(int(self.fruit.pos.x * cell_size), int(self.fruit.pos.y * cell_size), cell_size, cell_size)
         screen.blit(self.fruit.apple, fruit_rect)
     
+    def draw_rock(self,screen):
+        rock_rect1 = pygame.Rect(int(self.rock1.pos.x * cell_size), int(self.rock1.pos.y * cell_size), 2*cell_size, 2*cell_size)
+        rock_rect2 = pygame.Rect(int(self.rock2.pos.x * cell_size), int(self.rock2.pos.y * cell_size), 2*cell_size, 2*cell_size)
+        rock_rect3 = pygame.Rect(int(self.rock3.pos.x * cell_size), int(self.rock3.pos.y * cell_size), 2*cell_size, 2*cell_size)
+        screen.blit(self.rock2.image, rock_rect1)
+        screen.blit(self.rock2.image, rock_rect2)
+        screen.blit(self.rock2.image, rock_rect3)
+
     def draw_snake(self,screen):
         self.snake.update_head_graphics()
         self.snake.update_tail_graphics()
@@ -155,6 +167,15 @@ class MAIN2():
         for block in self.snake.body[1:]: # Colisão entre a cobra e a comida
             if block == self.fruit.pos:
                 self.fruit = FRUIT(assets)
+            if block == self.rock1.pos or block == self.rock1.pos + Vector2(1,0) or block == self.rock1.pos + Vector2(0,1) or block == self.rock1.pos + Vector2(1,1):
+                self.snake.reset()
+                self.rock1 = Obstacle(assets)
+            if block == self.rock2.pos or block == self.rock2.pos + Vector2(1,0) or block == self.rock2.pos + Vector2(0,1) or block == self.rock2.pos + Vector2(1,1):
+                self.snake.reset()
+                self.rock2 = Obstacle(assets)
+            if block == self.rock3.pos or block == self.rock3.pos + Vector2(1,0) or block == self.rock3.pos + Vector2(0,1) or block == self.rock3.pos + Vector2(1,1):
+                self.snake.reset()
+                self.rock3 = Obstacle(assets)
 
     def check_fail(self):
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
@@ -193,3 +214,15 @@ class MAIN2():
         screen.blit(score_surface, score_rect)
         screen.blit(self.fruit.apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
+    
+class Obstacle():
+    def __init__(self,assets):
+        self.x = random.randint(3,cell_number-3)
+        self.y = random.randint(3,cell_number-3)
+        self.pos = Vector2(self.x, self.y)
+        
+        self.image = assets['rock']
+        
+    
+
+
